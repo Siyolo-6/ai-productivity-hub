@@ -24,11 +24,11 @@ Plan sprint retro | Fri | 1 | Medium`;
 
 function PlannerPage() {
   const t = useTool("awpa.planner", { tasks: "", hours: 6, mode: "Weekly" as "Daily" | "Weekly", notes: "" });
-  const [err, setErr] = useState<Record<string, string>>({});
+  const [err, setErr] = useState<{ tasks?: string; hours?: string }>({});
   const f = t.form;
 
   const submit = () => {
-    const e: Record<string, string> = {};
+    const e: { tasks?: string; hours?: string } = {};
     const tasks = parseTasks(f.tasks);
     if (!tasks.length) e.tasks = "Add at least one task.";
     else if (tasks.some((x) => !x.name)) e.tasks = "Every line needs a task name before the first |.";

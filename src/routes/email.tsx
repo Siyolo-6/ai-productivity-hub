@@ -20,11 +20,11 @@ const tones: Tone[] = ["Formal", "Friendly", "Persuasive"];
 
 function EmailPage() {
   const t = useTool("awpa.email", { recipient: "", sender: "", relationship: "Colleague", purpose: "", details: "", tone: "Formal" as Tone });
-  const [errs, setErrs] = useState<Record<string, string>>({});
+  const [errs, setErrs] = useState<{ purpose?: string; details?: string }>({});
   const f = t.form;
 
   const submit = () => {
-    const e: Record<string, string> = {};
+    const e: { purpose?: string; details?: string } = {};
     if (f.purpose.trim().length < 5) e.purpose = "Describe the purpose (at least 5 characters).";
     if (f.details.trim().length < 10) e.details = "Add some context or key points (at least 10 characters).";
     setErrs(e);

@@ -23,8 +23,8 @@ export function demoEmail(i: {
   }[i.tone];
   const sign = { Formal: "Kind regards,", Friendly: "Cheers,", Persuasive: "Best regards," }[i.tone];
   const subject = `Subject: ${i.purpose.trim().replace(/^./, (c) => c.toUpperCase())}`;
-  return [subject, "", greet, "", open, body && `\n${body}`, "", close, "", sign, i.sender.trim() || "[Your name]"]
-    .filter((x) => x !== false)
+  return [subject, "", greet, "", open, body ? `\n${body}` : "", "", close, "", sign, i.sender.trim() || "[Your name]"]
+    
     .join("\n")
     .replace(/\n{3,}/g, "\n\n");
 }
@@ -58,7 +58,7 @@ export function parseTasks(raw: string): PlanTask[] {
   return raw.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => {
     const [name, deadline = "", hours = "1", priority = "Medium"] = l.split("|").map((s) => s.trim());
     const p = (/^h/i.test(priority) ? "High" : /^l/i.test(priority) ? "Low" : "Medium") as PlanTask["priority"];
-    return { name, deadline, hours: Math.max(0.25, parseFloat(hours) || 1), priority: p };
+    return { name: name ?? "", deadline, hours: Math.max(0.25, parseFloat(hours) || 1), priority: p };
   });
 }
 
